@@ -24,6 +24,10 @@ def get_weather():
   weather = res['data']['list'][0]
   return weather['weather'], math.floor(weather['temp']), weather['city'], math.floor(weather['low']), math.floor(weather['high'])
 
+def get_time():
+  nowadays = datetime.date.now()
+  return nowadays.days
+
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
   return delta.days
@@ -48,6 +52,6 @@ client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
 wea, temperature, city, low, high = get_weather()
-data = {"date":{"value":today},"city":{"value":city},"weather":{"value":wea},"temperature":{"value":temperature},"min_temperature":{"value":low},"max_temperature":{"value":high},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
+data = {"date":{"value":get_time()},"city":{"value":city},"weather":{"value":wea},"temperature":{"value":temperature},"min_temperature":{"value":low},"max_temperature":{"value":high},"love_days":{"value":get_count()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
