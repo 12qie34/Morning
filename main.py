@@ -26,7 +26,7 @@ def get_weather():
 
 def get_time():
   nowadays = datetime.date.now()
-  return nowadays.days
+  return nowadays
 
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
