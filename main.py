@@ -25,7 +25,7 @@ def get_weather():
 #   weather = res['data']['list'][0]
   _province = res['cityInfo']['parent']
   _city = res['cityInfo']['city']
-  tem = res['cityInfo']['wendu']
+  tem = res['data']['wendu']
   wearther = res['data']['forecast'][0]
   return _province,_city,tem,werther['type'],weather['high'],weather['low']
 #   return weather['weather'], math.floor(weather['temp']), weather['province'], weather['city'], math.floor(weather['low']), math.floor(weather['high'])
