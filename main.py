@@ -27,7 +27,7 @@ def get_weather():
   _city = res['cityInfo']['city']
   tem = res['data']['wendu']
   wearther = res['data']['forecast'][0]
-  return _province,_city,tem,werther['type'],weather['high'],weather['low']
+  return _province,_city,tem,weather['type'],weather['high'],weather['low']
 #   return weather['weather'], math.floor(weather['temp']), weather['province'], weather['city'], math.floor(weather['low']), math.floor(weather['high'])
 
 def get_count():
