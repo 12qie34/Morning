@@ -19,10 +19,16 @@ template_id = os.environ["TEMPLATE_ID"]
 
 
 def get_weather():
-  url = "http://autodev.openspeech.cn/csp/api/v2.1/weather?openId=aiuicus&clientType=android&sign=android&city=" + city
+#   http://t.weather.itboy.net/api/weather/city/101270101
+  url = "http://t.weather.itboy.net/api/weather/city/" + city
   res = requests.get(url).json()
-  weather = res['data']['list'][0]
-  return weather['weather'], math.floor(weather['temp']), weather['province'], weather['city'], math.floor(weather['low']), math.floor(weather['high'])
+#   weather = res['data']['list'][0]
+  _province = res['cityInfo']['parent']
+  _city = res['cityInfo']['city']
+  tem = res['cityInfo']['wendu']
+  wearther = res['data']['forecast'][0]
+  return _province,_city,tem,werther['type'],weather['high'],weather['low']
+#   return weather['weather'], math.floor(weather['temp']), weather['province'], weather['city'], math.floor(weather['low']), math.floor(weather['high'])
 
 def get_count():
   delta = today - datetime.strptime(start_date, "%Y-%m-%d")
@@ -47,8 +53,8 @@ def get_random_color():
 client = WeChatClient(app_id, app_secret)
 
 wm = WeChatMessage(client)
-# wea, temperature, province, city, low, high = get_weather()
-# data = {"province":{"value":province},"city":{"value":city},"weather":{"value":wea},"temperature":{"value":temperature, "color":get_random_color()},"min_temperature":{"value":low},"max_temperature":{"value":high},"love_days":{"value":get_count(), "color":get_random_color()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
-data = {"city":{"value":city},"love_days":{"value":get_count(), "color":get_random_color()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
+_province, _city,temperature,wea, high, low = get_weather()
+data = {"province":{"value":_province},"city":{"value":_city},"weather":{"value":wea},"temperature":{"value":temperature, "color":get_random_color()},"min_temperature":{"value":low},"max_temperature":{"value":high},"love_days":{"value":get_count(), "color":get_random_color()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
+# data = {"city":{"value":city},"love_days":{"value":get_count(), "color":get_random_color()},"birthday_left":{"value":get_birthday()},"words":{"value":get_words(), "color":get_random_color()}}
 res = wm.send_template(user_id, template_id, data)
 print(res)
